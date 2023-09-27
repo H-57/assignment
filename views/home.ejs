@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/head.ejs') %>
+<body class="bg-slate-900 text-white">
+    <%- include('./partials/navbar') %>
+
+
+  
+
+
+
+<%- include('./partials/table') %>
+<style>
+    .td-button {
+  background: linear-gradient(to bottom, #1e5799 0%, #207cca 100%);
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.td-button:hover {
+  background: linear-gradient(to bottom, #1a478c 0%, #1e5799 100%);
+  box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px) scale(1.02);
+}
+
+
+</style>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script>
+  async function deleteUser(id) {
+    let response= await fetch(`/delete/${id}`,{
+      method:"DELETE"
+    }
+);
+setTimeout(()=>{window.location.reload()},1500)
+if (response.ok) {
+let data=await JSON.stringify(response)
+  console.log(data,response)
+}
+  Toastify({
+  text: "use deleted success",
+  duration: 3000,
+  // destination: "https://github.com/apvarun/toastify-js",
+  // newWindow: true,
+  close: true,
+  gravity: "top", // `top` or `bottom`
+  position: "center", // `left`, `center` or `right`
+  stopOnFocus: true, // Prevents dismissing of toast on hover
+  style: {
+    background: "linear-gradient(to right, #06ff06, green)",
+    
+  },
+  offset: {
+    x: 50, // horizontal axis - can be a number or a string indicating unity. eg: '2em'
+    y: 10 // vertical axis - can be a number or a string indicating unity. eg: '2em'
+  },
+  onClick: function(){} // Callback after click
+}).showToast()
+  }
+</script>
+</body>
+</html>

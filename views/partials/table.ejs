@@ -1,0 +1,33 @@
+
+
+<div class="table-container overflow-auto">
+<table class="bg-slate-900 flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 text-white">
+    <tbody>
+        <tr>
+            <th class="px-4 py-2">S.No</th>
+            <th class="px-4 py-2">Name</th>
+            <th class="px-4 py-2">email</th>
+            <th class="px-4 py-2">Oders</th>
+            <th class="px-4 py-2">LastLogIn</th>
+            <th class="px-4 py-2">Delete</th>
+        </tr>
+       
+<% if (locals.userData.length>0) { %>
+ <% for( let i = 0; i < userData.length; i++ ) { %>
+ 
+    <tr class="border-b-2 border-white">
+        <td class="border-t border-white px-4 py-2 font-semibold"> <%=i+1  %></td>
+        <td><%= userData[i].user_name %></td>
+        <td class="border-t border-white px-4 py-2"><%= userData[i].user_email %></td>
+        <td class="border-t border-white px-4 py-2"><%= userData[i].total_orders %></td>
+        <td class="border-t border-white px-4 py-2"><%= userData[i].last_logged_in %></td>
+        
+        <td><button onclick="deleteUser('<%=userData[i].user_id  %>')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mx-3">DeleteUser</button></td>
+    </tr>
+
+ <% } %>
+        <% } %>
+    </tbody>
+</table>
+
+</div>
