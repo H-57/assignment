@@ -4,8 +4,9 @@
 <body>
     
     <%- include('./partials/navbar') %>
+
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-<form >
+<form method="post" action="/image" enctype="multipart/form-data">
     <div class="flex items-center justify-center w-full">
         <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
             <div class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -17,10 +18,11 @@
                 
             </div>
             <input id="dropzone-file" name="user_image" type="file" class="hidden" />
-            <button class="h-10 px-6 font-semibold rounded-md bg-black text-white" onclick="handelImage()">upload</button>
+            <button class="h-10 px-6 font-semibold rounded-md bg-black text-white" type="submit">upload</button>
         </label>
     </div> 
     </form>
+    <img class="w-10 h-10 rounded-full mr-4" src="<%= userData.user_image %>" alt="user_image">
     <script>
       const handelImage=async()=>{
       try {

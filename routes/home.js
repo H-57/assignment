@@ -13,12 +13,16 @@ router.get("/",restrictToLoggenInUserOnly, async(req, res) => {
 
   });
   router.get("/profile",restrictToLoggenInUserOnly,async(req, res) => {
- 
-   const userId=await getUser(req.cookies.uid).user_id
+ try {
+    const userId=await getUser(req.cookies.uid).user_id
     let userData=await User.findByPk(userId)
         userData=userData.dataValues
-        console.log(userData);
+      //   console.log(userData);
      res.render('profile',{userData,login:true});
 
+ } catch (error) {
+    res.render('404')
+ }
+   
  })
   module.exports=router
