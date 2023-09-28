@@ -6,7 +6,9 @@ const password=process.env.Password||process.env.POSTGRES_PASSWORD
 const host=process.env.HOST||process.env.POSTGRES_HOST
   const sequelize=new Sequelize(dbName, user, password, {
   host: host,
+  dialectModule: require('pg'),
   dialect: 'postgres',
+  
   ssl: true, // Enable SSL
   dialectOptions: {
     ssl: {
