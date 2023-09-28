@@ -15,7 +15,7 @@ const createUser = async (req, res) => {
         await res.cookie("uid",token)
         res.status(200).json({ data: user, message: "User created Success", status: "success" })
     } catch (error) {
-        res.status(400).json({ status: "error", message: error.errors[0].message, error, })
+        res.status(400).json({ status: "error", message: error?.errors[0]?.message, error, })
     }
 
 };
