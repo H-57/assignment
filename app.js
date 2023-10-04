@@ -10,8 +10,8 @@ const ejs=require("ejs")
 const path=require('path')
 const multer  = require('multer');
 const { getUser } = require('./service/auth');
-
-
+const {putObject}=require('./service/awsBucket/file')
+require('dotenv').config()
 
 
 const app = express();
@@ -24,17 +24,9 @@ app.set('view engine','ejs')
 app.set('views', path.join(__dirname, 'views'));
 const port = 3000;
 
-// multer
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './uploads')
-  },
-  filename: function (req, file, cb) {
-  cb(null, `${getUser(req.cookies.uid).user_id}.png`)
-  }
-})
 
-const upload = multer({ storage: storage })
+
+const upload = multer({storage:multer.memoryStorage()})
 
 // Routes
 app.use("/",homeRoute)
@@ -43,19 +35,26 @@ app.use("/",staticRoutes)
 // Serve static files from the 'uploads' directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.post('/image', upload.single('user_image'),async(req,res)=>{
+
+
+app.post('/image',upload.single('user_image'),async(req,res)=>{
  
-  
+  // console.log(req.file);
+ 
   try {
     const userId= await getUser(req.cookies.uid).user_id
+    const file=req.file
+    const response=await putObject(file,userId)
+    const imageUrl=`${process.env.s3Host}/images/uploads/assignment/${userId}.png`
+    // console.log(response);
    
   const user=await User.findByPk(userId)
-   const updateUser=await user.update({user_image:req.file.path},{where:{user_id:userId}});
-res.json({status:"success",message:"image upload success",image:req.file.path,updateUser})
+   const updateUser=await user.update({user_image:imageUrl},{where:{user_id:userId}});
+res.json({status:"success",message:"image upload success",image:imageUrl,updateUser})
 
   
   } catch (error) {
-    res.status(400).json({status:"erroe",message:"image not uploaded"})
+    res.status(400).json({status:"erroe",message:"image not uploaded",error})
   }
 })
 

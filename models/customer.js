@@ -21,9 +21,9 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  user_image: {
-    type: DataTypes.STRING,
-  },
+    user_image: {
+      type: DataTypes.STRING(255),
+    },
   total_orders: {
     type: DataTypes.INTEGER,
     defaultValue: 0,

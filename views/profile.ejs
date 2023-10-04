@@ -18,28 +18,37 @@
                 
             </div>
             <input id="dropzone-file" name="user_image" type="file" class="hidden" />
-            <button class="h-10 px-6 font-semibold rounded-md bg-black text-white" type="submit">upload</button>
+            <button class="h-10 px-6 font-semibold rounded-md bg-black text-white" onclick="handelImage()">upload</button>
         </label>
     </div> 
     </form>
     <img class="w-10 h-10 rounded-full mr-4" src="<%= userData.user_image %>" alt="user_image">
     <script>
-      const handelImage=async()=>{
-      try {
-        const image=document.getElementById("dropzone-file").files[0]
-        if(!image)return console.log("erroe ")
-        const response=await fetch('/image',{
-          method: 'POST',
-            headers: {'Content-Type': 'multipart/form-data'},
-            body: {image}
-        })
-        console.log(await(response.json()))
-      } catch (error) {
-        console.log("error")
-      }
-       
-        
-      }
+     const handelImage = async () => {
+      console.log("call");
+  try {
+    const image = document.getElementById("dropzone-file").files[0];
+    if (!image) return console.log("error");
+
+    const formData = new FormData();
+    formData.append("image", image);
+
+    const response = await fetch('/image', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+    } else {
+      console.log("Upload failed.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
     </script>
     <% if (locals.userData) { %>
         <form class=" m-auto">
